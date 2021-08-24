@@ -1,25 +1,51 @@
 const express = require("express");
-const request = require("request");
+const morgan = require("morgan");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
-require("dotenv").config();
-
+// Create Express Server
 const app = express();
-const port = process.env.PORT || 3001;
-const token = process.env.TOKEN || '???';
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", process.env.ORIGIN || "*");
+// Configuration
+const PORT = 3000;
+const HOST = "localhost";
+const API_SERVICE_URL = "https://api.razorpay.com/v1";
+
+// Logging
+app.use(morgan("dev"));
+
+// Authorization
+app.use("", (req, res, next) => {
+  if (req.method == "OPTIONS") {
+    // Handle preflight
+    res.writeHead(200, {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers":
+        "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
+    });
+    next();
+    return;
+  }
+  res.append("Access-Control-Allow-Origin", "*");
+  res.append(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+  );
   next();
 });
 
-app.get("/", (req, res) => {
-  const symbol = req.query["symbol"];
-  const range = req.query["range"];
-  const url = `https://cloud.iexapis.com/stable/stock/${symbol}/batch?types=quote,chart&range=${range}&token=${token}`;
-console.log(url);
-  request(url).pipe(res);
-});
-
-app.listen(port, () =>
-  console.log(`StockChart app listening on port ${port}!`)
+// Proxy endpoints
+app.use(
+  "/razorpay",
+  createProxyMiddleware({
+    target: API_SERVICE_URL,
+    changeOrigin: true,
+    pathRewrite: {
+      [`^/razorpay`]: "",
+    },
+  })
 );
+
+// Start Proxy
+app.listen(PORT, HOST, () => {
+  console.log(`Starting Proxy at ${HOST}:${PORT}`);
+});
