@@ -45,6 +45,10 @@ app.use(
   })
 );
 
+app.use('/',(_, res)=>{
+res.json({dev:true})
+})
+
 // Start Proxy
 app.listen(PORT, HOST, () => {
   console.log(`Starting Proxy at ${HOST}:${PORT}`);
