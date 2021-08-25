@@ -20,10 +20,18 @@ app.use("", (req, res, next) => {
     res.writeHead(200, {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Headers":
-        "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
+        "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, X-Team",
     });
     next();
     return;
+  }
+  if (req.headers["x-team"] === "A") {
+    req.headers.authorization =
+      "Basic cnpwX3Rlc3RfMURQNW1tT2xGNUc1YWc6dGhpc2lzc3VwZXJzZWNyZXQ=";
+  }
+  if (req.headers["x-team"] === "B") {
+    req.headers.authorization =
+      "Basic cnpwX3Rlc3RfMURQNW1tT2xGNUc1YWc6dGhpc2lzc3VwZXJzZWNyZXQ=";
   }
   res.append("Access-Control-Allow-Origin", "*");
   res.append(
@@ -45,9 +53,9 @@ app.use(
   })
 );
 
-app.use('/',(_, res)=>{
-res.json({dev:true})
-})
+app.use("/", (_, res) => {
+  res.json({ dev: true });
+});
 
 // Start Proxy
 app.listen(PORT, HOST, () => {
