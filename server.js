@@ -6,7 +6,7 @@ const { createProxyMiddleware } = require("http-proxy-middleware");
 const app = express();
 
 // Configuration
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const HOST = "0.0.0.0";
 const API_SERVICE_URL = "https://api.razorpay.com/v1";
 
@@ -24,14 +24,6 @@ app.use("", (req, res, next) => {
     });
     next();
     return;
-  }
-  if (req.headers["x-team"] === "A") {
-    req.headers.authorization =
-      "Basic cnpwX3Rlc3RfMURQNW1tT2xGNUc1YWc6dGhpc2lzc3VwZXJzZWNyZXQ=";
-  }
-  if (req.headers["x-team"] === "B") {
-    req.headers.authorization =
-      "Basic cnpwX3Rlc3RfMURQNW1tT2xGNUc1YWc6dGhpc2lzc3VwZXJzZWNyZXQ=";
   }
   res.append("Access-Control-Allow-Origin", "*");
   res.append(
