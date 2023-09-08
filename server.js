@@ -76,7 +76,6 @@ const html = `
               Cookie:
                 "razorpay_api_session=eyJpdiI6IkdtSWRNRm5FdGVhMUxpWVl5MmQxb0E9PSIsInZhbHVlIjoidTA0SWdRYW45R2ZPbTloL1NkT3hmM0EwMXY1elMvZ0pCYzNvZVdrb1ZlUThjMFZMcU9jOUVkT1NHc2w3NHRiSWZBUndPVml0V1haUUtxN1ZGbkFiWEU2Yi90eFd0aVYyRUt4QzlSL0RWZ0Uzekx1dzg5cGFvZlJGcFlHTU1xUTQiLCJtYWMiOiI5OTFhOThiZTYwMmFlNGQxY2E2NjcyYjdiMGNmOGZjMzcwNDdkNGZlYzllNjk3OTI0OGY0MTY4MmRkYzE2NjEzIiwidGFnIjoiIn0%3D",
             },
-            // body: '{\n    "amount": "10000",\n    "currency": "INR",\n    "receipt": "ORDER_COUPON",\n    "line_items_total": "10000",\n    "notes": {},\n    "discount": false,\n    "force_offer": false,\n    "partial_payment": false\n}',
             body: JSON.stringify({
               amount: "10000",
               currency: "INR",
@@ -108,6 +107,7 @@ const html = `
     </script>
   </body>
 </html>
+
 `;
 app.use("/", (_, res) => {
   res.type("html").send(html);
