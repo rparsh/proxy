@@ -8,7 +8,7 @@ const app = express();
 // Configuration
 const PORT = process.env.PORT || 3001;
 const HOST = "0.0.0.0";
-const API_SERVICE_URL = "https://api-checkout.ext.qa.razorpay.in/v1";
+const API_SERVICE_URL = "https://api.razorpay.com/v1";
 
 // Logging
 app.use(morgan("dev"));
